@@ -4,7 +4,7 @@ from pathlib import Path
 import torch
 
 # ============== UPDATE THIS PATH ==============
-ROOT_DIR = "PycharmProjects/SuperFlier"
+ROOT_DIR = "/PycharmProjects/SuperFlier"
 # ==============================================
 
 # Folder structure
