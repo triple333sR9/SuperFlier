@@ -4,7 +4,7 @@ from pathlib import Path
 import torch
 
 # ============== UPDATE THIS PATH ==============
-ROOT_DIR = "/PycharmProjects/SuperFlier"
+ROOT_DIR = "C:/Users/jorda/PycharmProjects/SuperFlier"
 # ==============================================
 
 # Folder structure
@@ -18,16 +18,17 @@ RESULTS_DIR = Path(ROOT_DIR + "/results")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 5 backbone options (ResNet50-tier)
-MODELS = ["resnet50", "efficientnet_b3", "densenet121", "convnext_small", "resnext50"]
+MODELS = ["resnet50", "efficientnet_b3", "densenet121"]
 
 # Sample images for visual evaluation (5 fly, 5 nofly - set after running pre-process)
 SAMPLE_FLY_IDS = [132, 164, 3, 196, 189]
 SAMPLE_NOFLY_IDS = [361, 791, 790, 913, 952]
 
-# Training
+# Training (Set from first round of 5 default models)
 BATCH_SIZE = 16
 NUM_EPOCHS = 15
 LEARNING_RATE = 0.001
 IMAGE_SIZE = 384
 NUM_WORKERS = 0
 USE_WEIGHTED_LOSS = True
+DROPOUT = 0.2

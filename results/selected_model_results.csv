@@ -1,0 +1,2 @@
+model,test_accuracy,test_precision,test_recall,test_specificity,test_f1,test_auc
+efficientnet_b3_AdamW_all,0.9724137931034482,0.9259259259259259,0.9259259259259259,0.9830508474576272,0.9259259259259259,0.9930947897049591

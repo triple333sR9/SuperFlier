@@ -27,29 +27,10 @@ def get_densenet121(pretrained=True):
     return model, "denseblock4"
 
 
-def get_convnext_small(pretrained=True):
-    weights = models.ConvNeXt_Small_Weights.DEFAULT if pretrained else None
-    model = models.convnext_small(weights=weights)
-    in_features = model.classifier[2].in_features
-    model.classifier = nn.Sequential(
-        nn.Flatten(1), nn.LayerNorm(in_features), nn.Dropout(0.3), nn.Linear(in_features, 1), nn.Sigmoid()
-    )
-    return model, "features.7"
-
-
-def get_resnext50(pretrained=True):
-    weights = models.ResNeXt50_32X4D_Weights.DEFAULT if pretrained else None
-    model = models.resnext50_32x4d(weights=weights)
-    model.fc = nn.Sequential(nn.Dropout(0.3), nn.Linear(model.fc.in_features, 1), nn.Sigmoid())
-    return model, "layer4"
-
-
 MODEL_REGISTRY = {
     "resnet50": get_resnet50,
     "efficientnet_b3": get_efficientnet_b3,
     "densenet121": get_densenet121,
-    "convnext_small": get_convnext_small,
-    "resnext50": get_resnext50,
 }
 
 

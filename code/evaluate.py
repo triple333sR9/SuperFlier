@@ -7,10 +7,8 @@ import torch
 import config
 from model import get_model
 from metrics import evaluate
+from utils import DEVICE, get_sample_images
 from visualisation import generate_all_plots, predict_samples, create_sample_predictions
-
-
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def load_trained_model(name):
@@ -22,10 +20,7 @@ def load_trained_model(name):
 
 
 def evaluate_all_models(test_loader, histories):
-    results = []
-    roc_data = {}
-    cm_data = {}
-    trained_models = {}
+    results, roc_data, cm_data, trained_models = [], {}, {}, {}
 
     for name in config.MODELS:
         print(f"Evaluating {name}...")
@@ -52,15 +47,6 @@ def evaluate_all_models(test_loader, histories):
     return results, roc_data, cm_data, trained_models
 
 
-def get_sample_images():
-    samples = []
-    for img_path in config.TEST_FOLDER.glob('*.jpg'):
-        img_id = int(img_path.stem)
-        label = 1 if img_id in config.SAMPLE_FLY_IDS else 0
-        samples.append({'id': img_id, 'filepath': img_path, 'label': label})
-    return samples
-
-
 def run_evaluation(test_loader, histories):
     print(f"\n{'='*50}\nEVALUATION\n{'='*50}")
 
@@ -77,7 +63,7 @@ def run_evaluation(test_loader, histories):
     generate_all_plots(results, histories, roc_data, cm_data, config.RESULTS_DIR)
 
     sample_images = get_sample_images()
-    if all(s['filepath'].exists() for s in sample_images):
+    if sample_images and all(s['filepath'].exists() for s in sample_images):
         preds = predict_samples(trained_models, sample_images, DEVICE, config.IMAGE_SIZE)
         create_sample_predictions(sample_images, preds, config.RESULTS_DIR)
         print(f"\nSample predictions saved to {config.RESULTS_DIR}")
